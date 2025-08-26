@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Requirements
+
+- **Node.js**: >=20.0.0 (required for cross-env@10.0.0 and other dependencies)
+- **Yarn**: >=1.22.0
+
 ## Development Commands
 
 - `yarn dev` - Start development server with Turbopack
