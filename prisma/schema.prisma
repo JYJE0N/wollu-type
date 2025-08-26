@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  nickname  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Typing records
+  typingRecords TypingRecord[]
+  
+  // User preferences
+  preferences UserPreferences?
+  
+  @@map("users")
+}
+
+model UserPreferences {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Settings
+  wordCount     Int     @default(5) // 1, 3, 5, 10
+  sentenceCount Int     @default(3) // 1, 3, 5, 10
+  sentenceLength String @default("medium") // short, medium, long
+  sentenceStyle  String @default("normal") // normal, punctuation, numbers, mixed
+  
+  // Advanced settings
+  ghostMode     Boolean @default(false)
+  typingEffect  Boolean @default(true)
+  countdown     Boolean @default(true)
+  
+  // Theme
+  theme String @default("default")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("user_preferences")
+}
+
+model TypingRecord {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Test configuration
+  language    String // "korean" | "english"
+  textType    String // "word" | "sentence"
+  textContent String
+  
+  // Results
+  wpm           Float    // Words per minute
+  cpm           Float    // Characters per minute
+  accuracy      Float    // Accuracy percentage
+  duration      Int      // Duration in seconds
+  totalChars    Int      // Total characters
+  correctChars  Int      // Correct characters
+  incorrectChars Int     // Incorrect characters
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  
+  @@map("typing_records")
+}
+
+model Sentence {
+  id       String @id @default(cuid())
+  language String // "korean" | "english"
+  content  String
+  source   String? // Author, book, etc.
+  category String? // philosophy, quote, literature, etc.
+  length   String // "short" | "medium" | "long"
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("sentences")
+}
+
+model Word {
+  id       String @id @default(cuid())
+  language String // "korean" | "english"
+  content  String
+  category String? // Common category for targeted practice
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("words")
+}
