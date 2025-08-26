@@ -217,7 +217,7 @@ export default function TypingEngine({ language, settings, onComplete, textType 
     }
     
     onComplete(stats);
-  }, [calculateStats, onComplete, language, text, userStats, errors]);
+  }, [calculateStats, onComplete, language, text, textType, userStats, errors]);
 
   // Keyboard event listener
   useEffect(() => {

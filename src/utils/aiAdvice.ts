@@ -39,8 +39,8 @@ export class AITypingAnalyzer {
 
     // Analyze speed and accuracy patterns
     this.analyzeSpeedPatterns(stats, userStats, analysis);
-    this.analyzeAccuracyPatterns(stats, analysis, language);
-    this.analyzeErrorPatterns(textContent, errors, analysis, language);
+    this.analyzeAccuracyPatterns(stats, analysis);
+    this.analyzeErrorPatterns(textContent, errors, analysis);
     this.generateRecommendations(analysis, userStats, language);
 
     return analysis;
@@ -58,7 +58,7 @@ export class AITypingAnalyzer {
 
     // Speed consistency analysis
     if (stats.duration > 30) {
-      const speedVariation = this.calculateSpeedVariation(stats);
+      const speedVariation = this.calculateSpeedVariation();
       if (speedVariation > 20) {
         analysis.recommendations.push('타이핑 속도가 일정하지 않습니다. 꾸준한 리듬으로 연습해보세요.');
       } else {
@@ -67,7 +67,7 @@ export class AITypingAnalyzer {
     }
   }
 
-  private analyzeAccuracyPatterns(stats: TypingStats, analysis: AnalysisResult, language: Language) {
+  private analyzeAccuracyPatterns(stats: TypingStats, analysis: AnalysisResult) {
     if (stats.accuracy >= 95) {
       analysis.strengths.push('매우 높은 정확도를 유지하고 있습니다.');
     } else if (stats.accuracy >= 85) {
@@ -86,7 +86,7 @@ export class AITypingAnalyzer {
     }
   }
 
-  private analyzeErrorPatterns(textContent: string, errors: number[], analysis: AnalysisResult, language: Language) {
+  private analyzeErrorPatterns(textContent: string, errors: number[], analysis: AnalysisResult) {
     if (errors.length === 0) return;
 
     const errorChars = errors.map(index => textContent[index]).filter(Boolean);
@@ -101,10 +101,9 @@ export class AITypingAnalyzer {
       .slice(0, 3)
       .map(([char, count]) => ({ char, count }));
 
-    if (language === 'korean') {
-      this.analyzeKoreanErrors(mostCommonErrors, analysis);
-    } else {
-      this.analyzeEnglishErrors(mostCommonErrors, analysis);
+    // Analyze common error patterns regardless of language
+    if (mostCommonErrors.length > 0) {
+      analysis.commonMistakes.push(`자주 틀리는 글자: ${mostCommonErrors.map(e => e.char).join(', ')}`);
     }
   }
 
@@ -225,17 +224,15 @@ export class AITypingAnalyzer {
     }
   }
 
-  private calculateSpeedVariation(stats: TypingStats): number {
+  private calculateSpeedVariation(): number {
     // Simplified speed variation calculation
     // In a real implementation, this would analyze keystroke timing data
     const baseVariation = Math.random() * 30; // Simulate variation
     return baseVariation;
   }
 
-  getAdvancedInsights(userStats: UserStats, language: Language): string[] {
+  getAdvancedInsights(userStats: UserStats): string[] {
     const insights: string[] = [];
-    const practiceHours = userStats.totalPracticeTime / 60;
-    const avgSpeed = language === 'korean' ? userStats.averageCpm : userStats.averageWpm;
 
     // Learning curve analysis
     if (userStats.totalTests > 20) {
@@ -243,25 +240,24 @@ export class AITypingAnalyzer {
     }
 
     // Performance consistency
-    const speedAccuracyRatio = avgSpeed / userStats.averageAccuracy;
-    if (speedAccuracyRatio > 5) {
+    if (userStats.averageAccuracy < 90 && userStats.averageWpm > 50) {
       insights.push('속도에 비해 정확도가 부족합니다. 균형을 맞춰보세요.');
-    } else if (speedAccuracyRatio < 2) {
+    } else if (userStats.averageAccuracy > 95) {
       insights.push('매우 안정적인 타이핑 패턴을 보입니다.');
     }
 
     // Progress prediction
-    const expectedImprovement = this.predictImprovement(userStats, language);
+    const expectedImprovement = this.predictImprovement(userStats);
     if (expectedImprovement > 0) {
-      insights.push(`현재 진척도로 보면 한 달 후 ${Math.round(expectedImprovement)} ${language === 'korean' ? 'CPM' : 'WPM'} 향상이 예상됩니다.`);
+      insights.push(`현재 진척도로 보면 한 달 후 약 ${Math.round(expectedImprovement)}% 향상이 예상됩니다.`);
     }
 
     return insights;
   }
 
-  private predictImprovement(userStats: UserStats, language: Language): number {
+  private predictImprovement(userStats: UserStats): number {
     const practiceHours = userStats.totalPracticeTime / 60;
-    const avgSpeed = language === 'korean' ? userStats.averageCpm : userStats.averageWpm;
+    const avgSpeed = Math.max(userStats.averageCpm, userStats.averageWpm);
     
     // Simple learning curve model
     if (practiceHours < 10) {

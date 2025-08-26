@@ -259,7 +259,7 @@ export default function ThemesPage() {
             {categories.map((category) => (
               <button
                 key={category.id}
-                onClick={() => setSelectedCategory(category.id as any)}
+                onClick={() => setSelectedCategory(category.id as 'all' | Theme['category'])}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   selectedCategory === category.id
                     ? 'bg-white text-blue-600 shadow-sm'

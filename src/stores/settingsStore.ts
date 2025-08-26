@@ -76,7 +76,7 @@ export const useSettingsStore = create<SettingsState>()(
           const importedSettings = JSON.parse(settingsJson);
           // Validate imported settings
           const validKeys = Object.keys(defaultSettings);
-          const filteredSettings: any = {};
+          const filteredSettings: Record<string, unknown> = {};
           
           for (const key of validKeys) {
             if (importedSettings.hasOwnProperty(key)) {

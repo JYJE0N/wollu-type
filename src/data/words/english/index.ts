@@ -122,7 +122,7 @@ export const getRandomEnglishWords = (count: number, options?: {
   }
   
   if (options?.minFrequency) {
-    filteredWords = filteredWords.filter(word => word.frequency >= options.minFrequency);
+    filteredWords = filteredWords.filter(word => word.frequency >= options.minFrequency!);
   }
   
   const shuffled = [...filteredWords].sort(() => Math.random() - 0.5);

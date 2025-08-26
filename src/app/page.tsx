@@ -107,8 +107,8 @@ export default function HomePage() {
                   <button
                     key={count}
                     onClick={() => textType === 'word' 
-                      ? setSettings(prev => ({ ...prev, wordCount: count as any }))
-                      : setSettings(prev => ({ ...prev, sentenceCount: count as any }))
+                      ? setSettings(prev => ({ ...prev, wordCount: count as 1 | 3 | 5 | 10 }))
+                      : setSettings(prev => ({ ...prev, sentenceCount: count as 1 | 3 | 5 | 10 }))
                     }
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       (textType === 'word' ? settings.wordCount : settings.sentenceCount) === count
@@ -134,7 +134,7 @@ export default function HomePage() {
                   ].map(({ value, label }) => (
                     <button
                       key={value}
-                      onClick={() => setSettings(prev => ({ ...prev, sentenceLength: value as any }))}
+                      onClick={() => setSettings(prev => ({ ...prev, sentenceLength: value as 'short' | 'medium' | 'long' }))}
                       className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         settings.sentenceLength === value
                           ? 'bg-blue-100 text-blue-600'

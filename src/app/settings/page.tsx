@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { IoSave, IoRefresh, IoDownload, IoCloudUpload, IoVolumeHigh, IoEye, IoKeypad, IoBulb } from 'react-icons/io5';
+import { IoRefresh, IoDownload, IoCloudUpload, IoVolumeHigh, IoEye, IoKeypad, IoBulb } from 'react-icons/io5';
 import Layout from '@/components/layout/Layout';
 import { useSettingsStore } from '@/stores/settingsStore';
 
@@ -93,7 +93,7 @@ export default function SettingsPage() {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'basic' | 'advanced' | 'appearance' | 'sound')}
                 className={`flex-1 flex items-center justify-center space-x-2 py-4 px-6 font-medium transition-colors ${
                   activeTab === tab.id
                     ? 'text-blue-600 border-b-2 border-blue-600'
@@ -123,7 +123,7 @@ export default function SettingsPage() {
                         {[1, 3, 5, 10].map(count => (
                           <button
                             key={count}
-                            onClick={() => updateSettings({ wordCount: count as any })}
+                            onClick={() => updateSettings({ wordCount: count as 1 | 3 | 5 | 10 })}
                             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                               wordCount === count
                                 ? 'bg-blue-100 text-blue-600 border-2 border-blue-200'
@@ -147,7 +147,7 @@ export default function SettingsPage() {
                         {[1, 3, 5, 10].map(count => (
                           <button
                             key={count}
-                            onClick={() => updateSettings({ sentenceCount: count as any })}
+                            onClick={() => updateSettings({ sentenceCount: count as 1 | 3 | 5 | 10 })}
                             className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                               sentenceCount === count
                                 ? 'bg-blue-100 text-blue-600 border-2 border-blue-200'
@@ -170,7 +170,7 @@ export default function SettingsPage() {
                         ].map(({ value, label }) => (
                           <button
                             key={value}
-                            onClick={() => updateSettings({ sentenceLength: value as any })}
+                            onClick={() => updateSettings({ sentenceLength: value as 'short' | 'medium' | 'long' })}
                             className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left ${
                               sentenceLength === value
                                 ? 'bg-blue-100 text-blue-600 border-2 border-blue-200'
@@ -196,7 +196,7 @@ export default function SettingsPage() {
                     ].map(({ value, label }) => (
                       <button
                         key={value}
-                        onClick={() => updateSettings({ sentenceStyle: value as any })}
+                        onClick={() => updateSettings({ sentenceStyle: value as 'normal' | 'punctuation' | 'numbers' | 'mixed' })}
                         className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                           sentenceStyle === value
                             ? 'bg-blue-100 text-blue-600 border-2 border-blue-200'

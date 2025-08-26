@@ -152,7 +152,7 @@ export default function TierDisplay({ language, compact = false }: TierDisplayPr
       <div className="mt-6 pt-4 border-t border-gray-200">
         <div className="text-sm font-medium text-gray-700 mb-3">전체 티어</div>
         <div className="flex justify-between items-center">
-          {TIERS.map((tier, index) => (
+          {TIERS.map((tier) => (
             <div key={tier.name} className="flex flex-col items-center">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm ${

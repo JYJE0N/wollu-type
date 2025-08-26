@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { IoStatsChart, IoSettings, IoColorPalette, IoLanguage } from 'react-icons/io5';
+import { IoStatsChart, IoSettings, IoColorPalette } from 'react-icons/io5';
 import Link from 'next/link';
 import { Language } from '@/types';
 
@@ -11,7 +11,7 @@ interface HeaderProps {
 }
 
 export default function Header({ language, onLanguageChange }: HeaderProps) {
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [, setActiveMenu] = useState<string | null>(null);
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">

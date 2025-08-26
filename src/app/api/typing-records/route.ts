@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
     const language = searchParams.get('language');
     const limit = parseInt(searchParams.get('limit') || '50');
 
-    const where: any = {};
+    const where: { userId?: string; language?: string } = {};
     if (userId) where.userId = userId;
     if (language) where.language = language;
 

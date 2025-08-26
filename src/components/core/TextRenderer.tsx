@@ -63,7 +63,7 @@ export default function TextRenderer({
     }
   }, [language]);
 
-  const handleCompositionUpdate = useCallback((e: CompositionEvent) => {
+  const handleCompositionUpdate = useCallback((e: React.CompositionEvent<HTMLDivElement>) => {
     if (language === 'korean') {
       setComposition(e.data);
     }

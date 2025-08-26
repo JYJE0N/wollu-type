@@ -72,7 +72,7 @@ export function useMobileDetection(): MobileInfo {
   useEffect(() => {
     if (!mobileInfo.isMobile) return;
 
-    let initialHeight = window.innerHeight;
+    const initialHeight = window.innerHeight;
     let keyboardTimeout: NodeJS.Timeout;
 
     const handleResize = () => {

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(yarn install)",
       "Bash(node:*)",
-      "Bash(yarn --version)"
+      "Bash(yarn --version)",
+      "Bash(yarn build)"
     ],
     "deny": [],
     "ask": []
